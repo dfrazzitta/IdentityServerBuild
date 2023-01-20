@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+  identityserver:
+    image: ${DOCKER_REGISTRY-}identityserver
+    build:
+      context: .
+      dockerfile: IdentityServer/Dockerfile
+    ports:
+      - 5001:443
+
+
+
+  mvcclient:
+    image: ${DOCKER_REGISTRY-}mvcclient
+    build:
+      context: .
+      dockerfile: MvcClient/Dockerfile
+    ports:
+      - 5000:443
