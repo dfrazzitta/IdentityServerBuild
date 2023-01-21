@@ -26,6 +26,7 @@ namespace MvcClient
                      * FOR /f "tokens=*" %i IN ('docker ps -q') DO docker stop %i
                      * tcpdump --interface any -vv -w capX.txt
                      * tcpdump -D
+                     * from windows -- docker cp container:/app c:\path
                     webBuilder.ConfigureKestrel(options =>
                     {
                         var port = 5001;
