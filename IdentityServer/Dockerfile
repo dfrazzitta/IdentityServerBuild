@@ -21,6 +21,7 @@ RUN apt-get update && \
         iperf \
         iperf3 \
         iproute2 \
+        nano \
         tar \
         ipset \
         iptables \
@@ -58,6 +59,7 @@ RUN chmod 644 /usr/local/share/ca-certificates/MvcClientrootCA.crt && update-ca-
 COPY ./ApirootCA.crt /usr/local/share/ca-certificates/ApirootCA.crt
 RUN chmod 644 /usr/local/share/ca-certificates/ApirootCA.crt && update-ca-certificates
 
+COPY ./IdentityServer.pfx /app
 
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build

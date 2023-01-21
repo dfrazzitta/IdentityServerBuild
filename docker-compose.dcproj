@@ -4,9 +4,9 @@
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>848320e7-62c2-4e98-9ee4-ca38f2aaf939</ProjectGuid>
-    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>https://localhost:5000</DockerServiceUrl>
-    <DockerServiceName>mvcclient</DockerServiceName>
+    <DockerLaunchAction>None</DockerLaunchAction>
+    <DockerServiceUrl>https://localhost:6001</DockerServiceUrl>
+    <DockerServiceName>api</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

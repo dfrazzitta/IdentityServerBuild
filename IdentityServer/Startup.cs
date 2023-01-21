@@ -26,6 +26,9 @@ namespace IdentityServer
 
             builder.AddDeveloperSigningCredential();
 
+ 
+
+
             services.AddAuthentication()
 
                 .AddOpenIdConnect("oidc", "Demo IdentityServer", options =>
@@ -34,7 +37,7 @@ namespace IdentityServer
                     options.SignOutScheme = IdentityServerConstants.SignoutScheme;
                     options.SaveTokens = true;
 
-                    options.Authority = "https://demo.identityserver.io/";
+                    options.Authority = "https://identityserver:5001/";
                     options.ClientId = "interactive.confidential";
                     options.ClientSecret = "secret";
                     options.ResponseType = "code";

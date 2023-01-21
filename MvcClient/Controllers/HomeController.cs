@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using IdentityModel.Client;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MvcClient.Models;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace MvcClient.Controllers
@@ -23,8 +27,59 @@ namespace MvcClient.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+      //  [Authorize]
+        public async Task<IActionResult> Privacy()
         {
+            var client = new HttpClient();
+
+            var disco = await client.GetDiscoveryDocumentAsync("https://identityserver:5001");
+            if (disco.IsError)
+            {
+                Console.WriteLine(disco.Error);
+                //return;
+            }
+
+            // request token
+            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
+            {
+                Address = disco.TokenEndpoint,
+                ClientId = "client",
+                ClientSecret = "secret",
+
+                Scope = "api1"
+            });
+
+            if (tokenResponse.IsError)
+            {
+                Console.WriteLine(tokenResponse.Error);
+               // return;
+            }
+
+            Console.WriteLine(tokenResponse.Json);
+            Console.WriteLine("\n\n");
+
+            var apiClient = new HttpClient();
+            apiClient.SetBearerToken(tokenResponse.AccessToken);
+
+            var response = await apiClient.GetAsync("https://api:6001/identity");
+            if (!response.IsSuccessStatusCode)
+            {
+                Console.WriteLine(response.StatusCode);
+            }
+            else
+            {
+                var content = await response.Content.ReadAsStringAsync();
+                ViewData["page"] = JArray.Parse(content);
+                Console.WriteLine(JArray.Parse(content));
+            }
+
+
+            //  HttpClient hp = new HttpClient();
+
+            //  var res = await hp.GetAsync("https://identityserver:5001");
+
+            //  string content = await res.Content.ReadAsStringAsync();
+            //  ViewData["page"] = content;
             return View();
         }
 

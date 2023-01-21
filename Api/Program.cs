@@ -9,7 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
-namespace MvcClient
+namespace Api
 {
     public class Program
     {
@@ -22,14 +22,10 @@ namespace MvcClient
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    /*
-                     * FOR /f "tokens=*" %i IN ('docker ps -q') DO docker stop %i
-                     * tcpdump --interface any -vv -w capX.txt
-                     * tcpdump -D
                     webBuilder.ConfigureKestrel(options =>
                     {
-                        var port = 5001;
-                        var pfxFilePath = @"/app/mvcclient.pfx";
+                        var port = 6001;
+                        var pfxFilePath = @"/app/Api.pfx";
                         // The password you specified when exporting the PFX file using OpenSSL.
                         // This would normally be stored in configuration or an environment variable;
                         // I've hard-coded it here just to make it easier to see what's going on.
@@ -43,7 +39,7 @@ namespace MvcClient
                             listenOptions.UseHttps(pfxFilePath, pfxPassword);
                         });
                     });
-                    */
+
                     webBuilder.UseStartup<Startup>();
                 });
     }

@@ -43,8 +43,8 @@ RUN apt-get update && \
         software-properties-common \
         strace \
         tcpdump \
-        nano \
         telnet \
+        nano \
         tmux \
         tree \
         vim \
@@ -60,20 +60,22 @@ RUN chmod 644 /usr/local/share/ca-certificates/MvcClientrootCA.crt && update-ca-
 COPY ./ApirootCA.crt /usr/local/share/ca-certificates/ApirootCA.crt
 RUN chmod 644 /usr/local/share/ca-certificates/ApirootCA.crt && update-ca-certificates
 
-COPY ./MvcClient.pfx /app
+COPY ./Api.pfx /app
+
+
 
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build
 WORKDIR /src
-COPY ["MvcClient/MvcClient.csproj", "MvcClient/"]
-RUN dotnet restore "MvcClient/MvcClient.csproj"
+COPY ["Api/Api.csproj", "Api/"]
+RUN dotnet restore "Api/Api.csproj"
 COPY . .
-WORKDIR "/src/MvcClient"
-RUN dotnet build "MvcClient.csproj" -c Release -o /app/build
+WORKDIR "/src/Api"
+RUN dotnet build "Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "MvcClient.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "MvcClient.dll"]
+ENTRYPOINT ["dotnet", "Api.dll"]

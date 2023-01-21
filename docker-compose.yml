@@ -18,3 +18,11 @@ services:
       dockerfile: MvcClient/Dockerfile
     ports:
       - 5000:443
+
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    ports:
+      - 6001:443

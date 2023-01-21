@@ -47,10 +47,10 @@ namespace IdentityServer
                     AllowedGrantTypes = GrantTypes.Code,
                     
                     // where to redirect to after login
-                    RedirectUris = { "https://mvcclient:5002/signin-oidc" },
+                    RedirectUris = { "https://mvcclient:5000/signin-oidc" },
 
                     // where to redirect to after logout
-                    PostLogoutRedirectUris = { "https://mvcclient:5002/signout-callback-oidc" },
+                    PostLogoutRedirectUris = { "https://mvcclient:5000/signout-callback-oidc" },
 
                     AllowedScopes = new List<string>
                     {
