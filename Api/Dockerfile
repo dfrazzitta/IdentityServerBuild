@@ -1,6 +1,7 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
 FROM mcr.microsoft.com/dotnet/aspnet:3.1 AS base
+ 
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
@@ -50,17 +51,18 @@ RUN apt-get update && \
         vim \
         wget && \
     rm -rf /var/lib/apt/lists/*
-
-COPY ./IdentityServerrootCA.crt /usr/local/share/ca-certificates/IdentityServerrootCA.crt
+ 
+COPY ["Api.pfx", "app"]
+COPY ["IdentityServerrootCA.crt", "/usr/local/share/ca-certificates/IdentityServerrootCA.crt"]
 RUN chmod 644 /usr/local/share/ca-certificates/IdentityServerrootCA.crt && update-ca-certificates
 
-COPY ./MvcClientrootCA.crt /usr/local/share/ca-certificates/MvcClientrootCA.crt
-RUN chmod 644 /usr/local/share/ca-certificates/MvcClientrootCA.crt && update-ca-certificates
+#COPY MvcClientrootCA.crt /usr/local/share/ca-certificates/MvcClientrootCA.crt
+#RUN chmod 644 /usr/local/share/ca-certificates/MvcClientrootCA.crt && update-ca-certificates
 
-COPY ./ApirootCA.crt /usr/local/share/ca-certificates/ApirootCA.crt
-RUN chmod 644 /usr/local/share/ca-certificates/ApirootCA.crt && update-ca-certificates
-
-COPY ./Api.pfx /app
+#COPY ApirootCA.crt /usr/local/share/ca-certificates/ApirootCA.crt
+#RUN chmod 644 /usr/local/share/ca-certificates/ApirootCA.crt && update-ca-certificates
+ 
+  
 
 
 
@@ -78,4 +80,5 @@ RUN dotnet publish "Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ 
 ENTRYPOINT ["dotnet", "Api.dll"]

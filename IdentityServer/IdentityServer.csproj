@@ -50,4 +50,10 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="IdentityServer.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

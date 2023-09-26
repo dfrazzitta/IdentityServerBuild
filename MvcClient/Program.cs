@@ -27,9 +27,10 @@ namespace MvcClient
                      * tcpdump --interface any -vv -w capX.txt
                      * tcpdump -D
                      * from windows -- docker cp container:/app c:\path
+                     */
                     webBuilder.ConfigureKestrel(options =>
                     {
-                        var port = 5001;
+                        var port = 443;
                         var pfxFilePath = @"/app/mvcclient.pfx";
                         // The password you specified when exporting the PFX file using OpenSSL.
                         // This would normally be stored in configuration or an environment variable;
@@ -44,7 +45,7 @@ namespace MvcClient
                             listenOptions.UseHttps(pfxFilePath, pfxPassword);
                         });
                     });
-                    */
+                     
                     webBuilder.UseStartup<Startup>();
                 });
     }
